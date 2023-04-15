@@ -1,0 +1,25 @@
+{% extends 'bases/base.html' %}
+{% load static %}
+
+
+{% block body %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7">
+
+                <h3> Nova Receita </h3>
+
+                <form action="#" enctype="multipart/form-data" method="POST">
+                    {% csrf_token %}
+                    
+                    {{form.as_p}}
+                    <br>
+                    <input type="submit" class="btn btn-primary" value="Criar Receita">
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock body %}
