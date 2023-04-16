@@ -3,9 +3,25 @@
 <nav class="navbar bg-dark">
     <div class="container-fluid">
       <h5 class="text-light">Control Finanças</h5>
-      <div class="text-light">
-          <a>Entrar</a>
-          <a>Cadastrar</a>
-      </div>
+      {% if user.is_authenticated %}
+        <div class="text-light">
+          <div class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              {{user}}
+            </a>
+            <ul class="dropdown-menu" >
+              <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+          </div>
+          
+        </div>
+      {% else %}
+        <div class="text-light">
+            <button><a href="{% url 'login' %}">Entrar</a></button>
+            <button><a href="{% url 'cadastro' %}">Cadastrar</a></button>
+        </div>
+      
+      {% endif %}
+
     </div>
   </nav>
