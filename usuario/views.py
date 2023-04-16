@@ -5,8 +5,16 @@ from django.urls import reverse
 # Create your views here.
 
 def login(request, template_name="login.html"):
+    if request.method == "GET":
+        return render(request, template_name)
+    if request.method == "POST":
+        
+        username = request.POST.get('username')
+        password = request.POST.get('senha')
 
-    return render(request, template_name)
+        
+
+        return render(request, template_name)
 
 
 def cadastro(request, template_name="cadastro.html"):
