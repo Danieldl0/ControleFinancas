@@ -25,7 +25,19 @@ def cadastro_receita(request, template_name='receita/cadastro_receita.html'):
     if form.is_valid(): 
         receita = form.save(commit=False)
         receita.criador = request.user
-        receita.save()
+
+        #verificando se já existe uma receita com os mesmo dados
+        if Receita.objects.filter(
+            criador = receita.criador,
+            nome = receita.nome,
+            valor = receita.valor,
+            categoria = receita.categoria,
+            data = receita.data
+        ).exists():
+            messages.add_message(request, constants.ERROR, 'já existe essa receita')
+            return redirect(reverse('cadastro_receita'))
+
+        receita.save() # salvando uma nova receita no banco de dados
         messages.add_message(request, constants.SUCCESS, 'Receita cadastrada com sucesso')
         return redirect(reverse('cadastro_receita'))
     return render(request, template_name, {"form": form})

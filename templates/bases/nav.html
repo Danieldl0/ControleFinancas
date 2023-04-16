@@ -1,5 +1,6 @@
 {% load static %}
 <nav class="navbar bg-dark">
+  {% if user.is_authenticated %}
     <div class="container-fluid">
       <div>
         <div class="nav-item dropdown">
@@ -13,7 +14,6 @@
       <div>
         <h5 class="text-light">Control Finanças</h5>
       </div>
-      {% if user.is_authenticated %}
       <div class="text-light">
           <div class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -26,9 +26,10 @@
           
         </div>
       {% else %}
+      <h5 class="text-light">Control Finanças</h5>
         <div class="text-light">
-            <button><a href="{% url 'login' %}">Entrar</a></button>
-            <button><a href="{% url 'cadastro' %}">Cadastrar</a></button>
+            <a class="btn btn-dark" href="{% url 'login' %}">Entrar</a>
+            <a class="btn btn-primary" href="{% url 'cadastro' %}">Cadastrar</a>
         </div>
       
       {% endif %}
