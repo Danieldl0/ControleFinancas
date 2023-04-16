@@ -1,0 +1,22 @@
+{% extends 'index.html' %}
+
+{% block title %}
+ Remover Receita
+{% endblock title %}
+
+{% block conteudo %}
+
+    <div class="card card-primary ">
+        <div class="card-body">
+            <form method="post">{% csrf_token %}
+                <h4>Tem certeza que deseja excluir o livro "{{ receita.nome }}"?</h4>
+                <br/>
+                <a href="../" class="btn btn-secondary">Voltar<a/>
+                <button type="submit" class="btn btn-danger">
+                Remover
+                </button>
+            </form>
+        </div>
+    </div>
+
+{% endblock conteudo %}

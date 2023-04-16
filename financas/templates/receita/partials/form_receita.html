@@ -1,0 +1,24 @@
+<div class="container">
+
+    <div class="card card-primary">
+        <div class="card-body" >
+            {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert {{ message.tags }} text-center">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            <div class="d-flex justify-content-center">
+                <form action="#" enctype="multipart/form-data" method="POST">
+                    {% csrf_token %}
+            
+                    {{form.as_p}}
+                    <br>
+                    <div class="d-flex justify-content-between">
+                        <a href="../" class="btn btn-secondary">Voltar<a/>
+                        <input type="submit" class="btn btn-primary" value="Salvar">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

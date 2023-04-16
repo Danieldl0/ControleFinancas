@@ -5,7 +5,7 @@ from .models import Receita, Despesa
 class ReceitaForm(ModelForm):
     class Meta:
         model = Receita # entidade utilizada para criação do formulario
-        fields = '__all__' # campos que serao utilizados no formulario
+        exclude = ('criador',)
         widgets = { 
             'data': DateInput(attrs={'type': 'date',}), #transformando o campo data no tipo date
         }
@@ -15,6 +15,8 @@ class ReceitaForm(ModelForm):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs['class'] = 'form-control'
+    
+    
 
   
 class DespesaForm(ModelForm):

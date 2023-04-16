@@ -1,11 +1,12 @@
 {% extends 'index.html' %}
 {% load static %}
 
-
 {% block conteudo %}
 
-    <h3 class="text-center"> Nova Receita </h3>
+<h3 class="text-center"> Alterar {{form.nome.value}} </h3>
 
     {% include 'receita/partials/form_receita.html' %}
+    
+
 
 {% endblock conteudo %}

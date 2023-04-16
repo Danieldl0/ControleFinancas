@@ -1,14 +1,12 @@
-{% extends 'bases/base.html' %}
+{% extends 'index.html' %}
 {% load static %}
 
-{% block body %}
+{% block conteudo %}
 
-    <h3> Lista das Receitas </h3>
-
-    {% for receita in receitas %}
+    <h3 class="text-center"> Receitas </h3>
     
-        <p> {{receita}} </p>
+    {% include 'partials/financas/menu.html' %}
+    {% include 'partials/financas/lista.html' with detalhe='datalhe_receita' deleta='deleta_receita'%}
 
-    {% endfor %}
 
-{% endblock body %}
+{% endblock conteudo %}

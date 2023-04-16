@@ -1,5 +1,6 @@
 from django.forms import ModelForm, CharField, EmailField, ValidationError, PasswordInput
 from django.contrib.auth.models import User
+from django.contrib.auth.password_validation import validate_password
 
 
 class UserForm(ModelForm):
@@ -8,9 +9,8 @@ class UserForm(ModelForm):
     first_name = CharField(required=True, label="Nome")
     last_name = CharField(required=True, label="Sobrenome")
     email = EmailField(required=True)
-    password2 = CharField(max_length=128, required=True, widget=PasswordInput(), label="Confirmar senha")
+    password2 = CharField(max_length=128, required=True, widget=PasswordInput(), validators=[validate_password], label="Confirmar senha")
 
-    
     class Meta:
         model = User
         fields = ["username","first_name", "last_name", "email", "password"]

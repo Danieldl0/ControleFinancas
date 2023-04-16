@@ -8,6 +8,9 @@ from django.contrib.messages import constants
 
 
 def login(request, template_name="login.html"):
+
+    if request.user.is_authenticated:
+        return redirect(reverse('index'))
     if request.method == "GET":
         return render(request, template_name)
     if request.method == "POST":
@@ -26,10 +29,11 @@ def login(request, template_name="login.html"):
 
         # Logar o usuario. criando uma seção para o userio autenticado.
         auth.login(request, user)
-        return render(request, template_name)
+        return render(request, 'index.html')
 
 
 def logout(request):
+    # encerrando a seção do usuario logado
     auth.logout(request)
     return redirect(reverse('login'))
 
@@ -42,7 +46,7 @@ def cadastro(request, template_name="cadastro.html"):
     #verificando se os dados são validos
     if form.is_valid():
         # criando um novo usuario com os dados do formulario
-        user = form.save() 
+        user = form.save(commit=False) 
         user.set_password(user.password) # salvando a senha como hash no banco de dados
         user.save()
         return redirect(reverse('login'))

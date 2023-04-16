@@ -3,10 +3,13 @@
 
 {% block body %}
 
-    <h1> Tela inicial </h1>
+    
 
-    <button class="btn btn-link"> <a href="{% url 'cadastro_receita' %}">Receitas</a> </button>
-    <button class="btn btn-link"> <a href="{% url 'cadastro_despesa' %}">Despesas</a> </button>
+    {% block conteudo %}
+    
+        
+
+    {% endblock conteudo %}
 
 
 {% endblock body %}

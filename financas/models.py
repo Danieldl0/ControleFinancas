@@ -15,11 +15,11 @@ class Financas(models.Model):
     
 
 class Receita(Financas): # Herda de Financas
-    OPCOES = (("1","Investimento"),
-              ("2","Presente"),
-              ("3","Prêmio"),
-              ("4","Salário"),
-              ("5","Outros"))
+    OPCOES = (("Investimento","Investimento"),
+              ("Presente","Presente"),
+              ("Prêmio","Prêmio"),
+              ("Salário","Salário"),
+              ("Outros","Outros"))
     categoria = models.CharField(max_length=20, choices=OPCOES, blank=False, null=False)
 
     def __str__(self):
@@ -27,14 +27,14 @@ class Receita(Financas): # Herda de Financas
 
   
 class Despesa(Financas): # Herda de Financas
-    OPCOES = (("1","Casa"),
-              ("2","Educação"),
-              ("3","Eletrônicos"),
-              ("4","Lazer"),
-              ("5","Saúde"),
-              ("6","Supermercado"),
-              ("7","Transporte"),
-              ("8","Outros"))
+    OPCOES = (("Casa","Casa"),
+              ("Educação","Educação"),
+              ("Eletrônicos","Eletrônicos"),
+              ("Lazer","Lazer"),
+              ("Saúde","Saúde"),
+              ("Supermercado","Supermercado"),
+              ("Transporte","Transporte"),
+              ("Outros","Outros"))
     categoria = models.CharField(max_length=20, choices=OPCOES, blank=False, null=False)
 
     def __str__(self):

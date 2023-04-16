@@ -1,0 +1,46 @@
+<div class="card card-primary">
+    <div class="card-body">
+
+        <table class="table table-bordered">
+
+            <thead class="table-dark">
+                <tr>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th>Data</th>
+                    <th>Categoria</th>
+                    <th>Comprovante</th>
+                    <th>Valor</th>
+                    <th> Config. </th>
+                </tr>
+            </thead>
+            {{lista.model}}
+            {% for object in lista %}
+                <tbody >
+                    <td >
+                        <a>{{object.nome}}</a>
+                    </td>
+                    <td>
+                        {{object.descricao}}</a> 
+                    </td>  
+                    <td>
+                        {{object.data| date:"d/m/Y"}}
+                    </td>
+                    <td>
+                        {{object.categoria}}
+                    </td>
+                    <td>
+                        {{object.comprovante}}
+                    </td>
+                    <td>
+                        {{object.valor}}
+                    </td>
+                    <td> 
+                        <a href={% url detalhe object.id %}><span class="material-icons">edit</span></a>
+                        <a href="{% url deleta object.id %}"><span class="material-icons">delete</span></a>
+                    </td>
+                </tbody>
+            {% endfor %}
+        </table>
+    </div>
+</div>
