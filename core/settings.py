@@ -146,4 +146,3 @@ MESSAGE_TAGS = {
 #url redirect
 
 LOGIN_URL = 'login'
-

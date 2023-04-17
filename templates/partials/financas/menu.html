@@ -1,48 +1,43 @@
+{% for message in messages %}
+    <div class="alert {{ message.tags }} text-center">{{ message }}</div>
+{% endfor %}
 <nav class="navbar">
     <div class="container-fluid">
-
+      {% if messages %}
+      {% endif %}
       <div class="nav-item dropdown">
         <a class="btn dropdown" data-bs-toggle="dropdown" href="#">Filtros</a>
 
-        <ul class="dropdown-menu ">
-          <div class="form-check">
-              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
-              <label class="form-check-label" for="flexRadioDefault1">
-                Nome
-              </label>
-          </div>
-
-          <br>
-
-          <div class="form-check">
-              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-              <label class="form-check-label" for="flexRadioDefault1">
-                Valor
-              </label>
-          </div>
-
-          <br>
-          <div class="form-check">
-              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" >
-              <label class="form-check-label" for="flexRadioDefault2">
-                Data
-              </label>
-          </div>
-
-          <br>
-          <div class="form-check">
-              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" >
-              <label class="form-check-label" for="flexRadioDefault2">
-                Categoria
-              </label>
-          </div>
-        </ul>
+        <form action="#" method="GET">
+          <ul class="dropdown-menu ">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="filtro" value="1" id="filtro1"checked>
+                <label class="form-check-label" for="filtro1">Nome</label>
+            </div>
+            <br>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="filtro" value="2" id="filtro2">
+                <label class="form-check-label" for="filtro2">Valor</label>
+            </div>
+            <br>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="filtro" value="3" id="filtro3" >
+                <label class="form-check-label" for="filtro3">Data</label>
+            </div>
+            <br>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="filtro" value="4" id="filtro4" >
+                <label class="form-check-label" for="filtro4">Categoria</label>
+            </div>
+          </ul>
 
       </div>
       
-      <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Procurar..." aria-label="procurar">
+      
+        <div class="d-flex">
+          <input class="form-control me-2" type="search" placeholder="Procurar..." name="busca" value= "{{request.GET.busca}}">
           <button class="btn btn-outline-secondary" type="submit">Procurar</button>
+        </div>
       </form>
 
       <div>

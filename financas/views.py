@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.messages import constants
 from django.http import Http404
+from datetime import datetime
 
 
 @login_required
@@ -47,6 +48,36 @@ def cadastro_receita(request, template_name='receita/cadastro_receita.html'):
 @login_required
 def lista_receita(request, template_name="receita/lista_receita.html"):
     receitas = Receita.objects.filter(criador=request.user)
+
+    busca = request.GET.get('busca')
+    filtro = request.GET.get('filtro')
+
+    '''
+        filtros
+        1 = nome
+        2 = valor
+        3 = data
+        4 = categoria
+    '''
+    if busca:
+        if filtro == '1':
+            receitas = Receita.objects.filter(criador=request.user, nome__icontains=busca)
+
+        elif filtro == '2':
+            receitas = Receita.objects.filter(criador=request.user, valor__icontains=busca)
+
+        elif filtro == '3':
+            try: # convertendo a data do html para o formato que está no banco de dados
+                busca = datetime.strptime(str(busca), "%d/%m/%Y").strftime("%Y-%m-%d")
+            except:
+                messages.add_message(request, constants.ERROR, "Formato de data invalido! Ex: 28/10/1997 ")
+                return redirect('lista_receita')
+            receitas = Receita.objects.filter(criador=request.user, data__exact=busca)
+
+        elif filtro == '4':
+            receitas = Receita.objects.filter(criador=request.user, categoria__icontains=busca)
+        
+    
     return render(request, template_name, {"lista": receitas})
 
 
