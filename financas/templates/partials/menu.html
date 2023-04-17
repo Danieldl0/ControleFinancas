@@ -4,8 +4,7 @@
     <div class="alert {{ message.tags }} text-center">{{ message }}</div>
     {% endfor %}   
     <div >
-      <div class="d-flex justify-content-between m-2">
-        <h6>Filtros</h6>
+      <div class="d-flex justify-content-end m-2">
         <a class="btn btn-primary" href="{% url cadastro %}">+ Cadastrar</a>
       </div>
       <form method="GET">
@@ -43,7 +42,10 @@
             </tbody>
           </thead>
         </table>
-        <div class="d-flex justify-content-center"><button type="submit" class="btn btn-outline-secondary" name="busca" value="busca" >Pesquisar</button></div>
+        <div class="d-flex justify-content-around">
+          <button type="submit" class="btn btn-outline-secondary" name="busca" value="busca" >Filtrar</button>
+          <button type="submit" class="btn btn-success" name="exportar_csv" value="exportar_csv" >Exportar</button>
+        </div>
       </form>
 
     

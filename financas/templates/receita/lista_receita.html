@@ -3,10 +3,13 @@
 
 {% block conteudo %}
 
-    <h3 class="text-center"> Receitas </h3>
-    
-    {% include 'partials/menu.html' with cadastro='cadastro_receita' %}
-    {% include 'partials/lista.html' with detalhe='datalhe_receita' deleta='deleta_receita'%}
+<div class="card card-primary m-1">
+    <div class="card-body">
+        
+        <h3 class="text-center"> Receitas </h3>
 
-
+        {% include 'partials/menu.html' with cadastro='cadastro_receita' %}
+        {% include 'partials/lista.html' with detalhe='datalhe_receita' deleta='deleta_receita' objeto='Receita'%}
+    </div>
+</div>
 {% endblock conteudo %}

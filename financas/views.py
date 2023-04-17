@@ -6,7 +6,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.messages import constants
 from django.http import Http404
-from datetime import datetime
+from django.core.paginator import Paginator
+import csv, os
+from secrets import token_urlsafe
+from django.conf import settings
+
 
 
 @login_required
@@ -49,29 +53,46 @@ def cadastro_receita(request, template_name='receita/cadastro_receita.html'):
 def lista_receita(request, template_name="receita/lista_receita.html"):
     receitas = Receita.objects.filter(criador=request.user)
 
+    # pegando o value dos campos dos seus respectivos nomes
     busca = request.GET.get('busca')
     filtro_nome = request.GET.get('filtro_nome')
     filtro_valor = request.GET.get('filtro_valor')
     filtro_categoria = request.GET.get('filtro_categoria')
     filtro_data1 = request.GET.get('filtro_data1')
     filtro_data2 = request.GET.get('filtro_data2')
+    exportar_csv = request.GET.get('exportar_csv')
 
-
-    if busca:
-        if filtro_data1 and filtro_data2:
-            if filtro_data2 < filtro_data1:
+    # checando se apertou o botão de exportar
+    if exportar_csv:
+        if filtro_data2 < filtro_data1: # verificando se a data final é menor que a data inicio
                 messages.add_message(request, constants.ERROR, "A data inicio deve ser menor que a data final")
                 return redirect('lista_receita')
-
-            
+        
+        try:
             receitas = Receita.objects.filter(
+            criador=request.user,
+            data__range = (filtro_data1, filtro_data2)
+            )
+        except: # testando se tem data e está no formato correto
+            messages.add_message(request, constants.ERROR, "Selecione um periodo")
+            return redirect('lista_receita')
+
+        return gerar_csv(receitas) # retornando o csv para download
+
+    if busca:# checando se apertou o botão de exportar
+        if filtro_data1 and filtro_data2:# verificando se possui um periodo de data selecionado
+            if filtro_data2 < filtro_data1: # verificando se a data final é menor que a data inicio
+                messages.add_message(request, constants.ERROR, "A data inicio deve ser menor que a data final")
+                return redirect('lista_receita')
+            
+            receitas = Receita.objects.filter( # criando um objeto com os filtros possiveis
                 criador=request.user,
                 nome__icontains=filtro_nome,
                 valor__startswith=filtro_valor,
                 categoria__icontains=filtro_categoria,
                 data__range = (filtro_data1, filtro_data2)
                 )
-        else:   
+        else:  # caso nao tenha data informada, cria um objeto com filtro sem a data
             receitas = Receita.objects.filter(
                 criador=request.user,
                 nome__icontains=filtro_nome,
@@ -79,7 +100,12 @@ def lista_receita(request, template_name="receita/lista_receita.html"):
                 categoria__icontains=filtro_categoria
                 )
 
-    return render(request, template_name, {"lista": receitas})
+    # adicionando paginação de 10 objetos por pagina 
+    paginator = Paginator(receitas, 10)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, template_name, {"page_obj": page_obj})
 
 
 # view detalhe
@@ -111,11 +137,10 @@ def detalhe_receita(request, id, template_name="receita/detalhe_receita.html"):
 def deleta_receita(request, id, template_name="receita/deleta_receita.html"):
     receita = get_object_or_404(Receita, id=id)
     if request.method == "POST":
-        receita.delete()
+        receita.delete() # deletando o objeto do banco de dados
         return redirect('lista_receita')
     return render(request, template_name, {"receita": receita})
 
-        
 
 
 #CRUD Despesa
@@ -138,11 +163,11 @@ def cadastro_despesa(request, template_name='despesa/cadastro_despesa.html'):
             categoria = despesa.categoria,
             data = despesa.data
         ).exists():
-            messages.add_message(request, constants.ERROR, 'já existe essa despesa')
+            messages.add_message(request, constants.ERROR, 'já existe essa Despesa')
             return redirect(reverse('cadastro_despesa'))
 
         despesa.save() # salvando uma nova despesa no banco de dados
-        messages.add_message(request, constants.SUCCESS, 'despesa cadastrada com sucesso')
+        messages.add_message(request, constants.SUCCESS, 'Despesa cadastrada com sucesso')
         return redirect(reverse('cadastro_despesa'))
     return render(request, template_name, {"form": form})
 
@@ -153,37 +178,60 @@ def lista_despesa(request, template_name="despesa/lista_despesa.html"):
     despesas = Despesa.objects.filter(criador=request.user)
 
     busca = request.GET.get('busca')
-    filtro = request.GET.get('filtro')
+    filtro_nome = request.GET.get('filtro_nome')
+    filtro_valor = request.GET.get('filtro_valor')
+    filtro_categoria = request.GET.get('filtro_categoria')
+    filtro_data1 = request.GET.get('filtro_data1')
+    filtro_data2 = request.GET.get('filtro_data2')
+    exportar_csv = request.GET.get('exportar_csv')
 
-    '''
-        filtros
-        1 = nome
-        2 = valor
-        3 = data
-        4 = categoria
-    '''
-    if busca:
-        if filtro == '1':
-            despesas = Despesa.objects.filter(criador=request.user, nome__icontains=busca)
-
-        elif filtro == '2':
-            busca = str(despesas.valor).replace(',','.')  # convertendo o valor do html para o formato que está no banco de dados
-            despesas = Despesa.objects.filter(criador=request.user, valor__icontains=busca)
-
-        elif filtro == '3':
-            try: # convertendo a data do html para o formato que está no banco de dados
-                busca = datetime.strptime(str(busca), "%d/%m/%Y").strftime("%Y-%m-%d")
-            except:
-                messages.add_message(request, constants.ERROR, "Formato de data invalido! Ex: 28/10/1997 ")
+    # checando se apertou o botão de exportar
+    if exportar_csv:
+        if filtro_data2 < filtro_data1: # verificando se a data final é menor que a data inicio
+                messages.add_message(request, constants.ERROR, "A data inicio deve ser menor que a data final")
                 return redirect('lista_despesa')
-            
-            despesas = Despesa.objects.filter(criador=request.user, data__gte=busca)
-
-        elif filtro == '4':
-            despesas = Despesa.objects.filter(criador=request.user, categoria__icontains=busca)
         
-    
-    return render(request, template_name, {"lista": despesas})
+        try: # testando se tem data e está no formato correto
+            despesas = Despesa.objects.filter(
+            criador=request.user,
+            data__range = (filtro_data1, filtro_data2)
+            )
+        except:
+            messages.add_message(request, constants.ERROR, "Selecione um periodo")
+            return redirect('lista_despesa')
+
+        return gerar_csv(despesas) # retornando o csv para download
+
+
+    if busca: # checando se apertou o botão de exportar
+        if filtro_data1 and filtro_data2: # verificando se possui um periodo de data selecionado
+            if filtro_data2 < filtro_data1: # verificando se a data final é menor que a data inicio
+                messages.add_message(request, constants.ERROR, "A data inicio deve ser menor que a data final")
+                return redirect('lista_receita')
+
+            
+            despesas = Despesa.objects.filter( # criando um objeto com os filtros possiveis
+                criador=request.user,
+                nome__icontains=filtro_nome,
+                valor__startswith=filtro_valor,
+                categoria__icontains=filtro_categoria,
+                data__range = (filtro_data1, filtro_data2)
+                )
+        else: # caso nao tenha data informada, cria um objeto com filtro sem a data  
+            despesas = Despesa.objects.filter(
+                criador=request.user,
+                nome__icontains=filtro_nome,
+                valor__startswith=filtro_valor,
+                categoria__icontains=filtro_categoria
+                )
+        
+    # adicionando paginação de 10 objetos por pagina
+    paginator = Paginator(despesas, 10)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, template_name, {"page_obj": page_obj})
+
 
 
 # view detalhe
@@ -215,8 +263,24 @@ def detalhe_despesa(request, id, template_name="despesa/detalhe_despesa.html"):
 def deleta_despesa(request, id, template_name="despesa/deleta_despesa.html"):
     despesa = get_object_or_404(Despesa, id=id)
     if request.method == "POST":
-        despesa.delete()
+        despesa.delete() # deletando o objeto do banco de dados
         return redirect('lista_despesa')
     return render(request, template_name, {"despesa": despesa})
+
+
+
+# metodo gerar csv
+def gerar_csv(list_obj):
+    
+    token = f'{token_urlsafe(6)}.csv'
+    path = os.path.join(settings.MEDIA_ROOT, token)
+
+    with open(path, 'w') as arq:
+        writer = csv.writer(arq, delimiter=",")
+        for obj in list_obj:
+            x = (obj.nome, obj.data, obj.valor, obj.categoria)
+            writer.writerow(x)
+
+    return redirect(f'/media/{token}')
 
         
