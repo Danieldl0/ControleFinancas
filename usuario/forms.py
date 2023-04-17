@@ -19,7 +19,7 @@ class UserForm(ModelForm):
 
     ''' sobrepondo metodo clean para validar 
         que a senha é a confirmar senha dela são iguais. '''
-    def clean_password(self):
+    def clean(self):
         cleaned_data = super().clean()
         password = cleaned_data.get("password")
         password2 = cleaned_data.get("password2")
@@ -27,6 +27,7 @@ class UserForm(ModelForm):
         if password != password2:
             self.add_error("password2", "As senhas devem ser iguais")
         
+        return cleaned_data
 
     # funcao para colocar o atributo class = "form-control" do boostrap em todos os campos do fomulario
     def __init__(self, *args, **kwargs):

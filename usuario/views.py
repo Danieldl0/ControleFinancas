@@ -46,7 +46,7 @@ def cadastro(request, template_name="cadastro.html"):
     #verificando se os dados são validos
     if form.is_valid():
         # criando um novo usuario com os dados do formulario
-        user = form.save(commit=False) 
+        user = form.save()
         user.set_password(user.password) # salvando a senha como hash no banco de dados
         user.save()
         return redirect(reverse('login'))

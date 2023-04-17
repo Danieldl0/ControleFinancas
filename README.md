@@ -21,7 +21,7 @@ Cnteúdos
 * Essas instruções serão necessárias para configuração e execução do projeto em sua máquina local para desenvolvimento e testes. Antes de tudo, visualize o arquivo abaixo sobre como você realizará a configuração do projeto para execução oficial.
 
 # Pré Requisitos
-* ![Badge](https://img.shields.io/badge/Python-3.11.2-brightgreen)
+* ![Badge](https://img.shields.io/badge/Python-3.10-brightgreen)
 * ![Badge](https://img.shields.io/badge/Django-4.2-brightgreen)
 
 
@@ -29,7 +29,7 @@ Cnteúdos
 
 # Instalação
 
-* É necessário ter em sua máquina o Python 3.11 ou superior que é disponibilizado no site oficial do Python (https://www.python.org/downloads/). Antes de finalizar confira em suas Variações de Ambiente do Windows se o Python encontra-se configurado em sua "path". Posteriormente, faz se necessário criar e configurar sua própria maquina virtual de desenvolvimento para que as ferramentas de projeto não se instalem em suas respectivas máquinas permanentemente.
+* É necessário ter em sua máquina o Python 3.10 ou superior que é disponibilizado no site oficial do Python (https://www.python.org/downloads/). Antes de finalizar confira em suas Variações de Ambiente do Windows se o Python encontra-se configurado em sua "path". Posteriormente, faz se necessário criar e configurar sua própria maquina virtual de desenvolvimento para que as ferramentas de projeto não se instalem em suas respectivas máquinas permanentemente.
 
 Criar a virtual environment:
 
