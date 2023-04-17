@@ -1,0 +1,43 @@
+<table class="table ">
+
+    <thead class="table-dark">
+        
+
+        <tr class="text-center">
+            <th>Nome</th>
+            <th>Descrição</th>
+            <th>Categoria</th>
+            <th>Data</th>
+            <th>Comprovante</th>
+            <th>Valor</th>
+            <th> Config. </th>
+        </tr>
+    </thead>
+    {{lista.model}}
+    {% for object in lista %}
+        <tbody class="text-center">
+            <td >
+                <a>{{object.nome}}</a>
+            </td>
+            <td>
+                {{object.descricao}}</a> 
+            </td>  
+            <td>
+                {{object.categoria}}
+            </td>
+            <td>
+                {{object.data| date:"d/m/Y"}}
+            </td>
+            <td>
+                <a href="{{object.comprovante.url}}"><span class="material-icons">cloud_download</span></a>
+            </td>
+            <td>
+                {{object.valor| floatformat:2}}
+            </td>
+            <td> 
+                <a href={% url detalhe object.id %}><span class="material-icons">edit</span></a>
+                <a href="{% url deleta object.id %}"><span class="material-icons text-danger">delete</span></a>
+            </td>
+        </tbody>
+    {% endfor %}
+</table>

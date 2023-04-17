@@ -22,7 +22,7 @@ class ReceitaForm(ModelForm):
 class DespesaForm(ModelForm):
     class Meta:
         model = Despesa # entidade utilizada para criação do formulario
-        fields = '__all__' # campos que serao utilizados no formulario
+        exclude = ('criador',) #todos os campos, menos o criador
         widgets = { 
             'data': DateInput(attrs={'type': 'date',}), #transformando o campo data no tipo date
         }

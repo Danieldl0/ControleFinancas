@@ -1,4 +1,4 @@
-from django.forms import ModelForm, CharField, EmailField, ValidationError, PasswordInput
+from django.forms import ModelForm, CharField, EmailField, PasswordInput
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 
@@ -9,7 +9,8 @@ class UserForm(ModelForm):
     first_name = CharField(required=True, label="Nome")
     last_name = CharField(required=True, label="Sobrenome")
     email = EmailField(required=True)
-    password2 = CharField(max_length=128, required=True, widget=PasswordInput(), validators=[validate_password], label="Confirmar senha")
+    password = CharField(required=True, widget=PasswordInput(), validators=[validate_password], label="Senha")
+    password2 = CharField(required=True, widget=PasswordInput(), label="Confirmar senha")
 
     class Meta:
         model = User
@@ -18,15 +19,13 @@ class UserForm(ModelForm):
 
     ''' sobrepondo metodo clean para validar 
         que a senha é a confirmar senha dela são iguais. '''
-    def clean(self):
-        cleaned_data = super(UserForm, self).clean()
+    def clean_password(self):
+        cleaned_data = super().clean()
         password = cleaned_data.get("password")
         password2 = cleaned_data.get("password2")
         
         if password != password2:
-            raise ValidationError(
-                "As senhas devem ser iguais"
-            )
+            self.add_error("password2", "As senhas devem ser iguais")
         
 
     # funcao para colocar o atributo class = "form-control" do boostrap em todos os campos do fomulario

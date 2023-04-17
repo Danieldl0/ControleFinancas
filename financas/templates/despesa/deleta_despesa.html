@@ -1,7 +1,7 @@
 {% extends 'index.html' %}
 
 {% block title %}
- Remover Receita
+ Remover Despesa
 {% endblock title %}
 
 {% block conteudo %}
@@ -9,7 +9,7 @@
     <div class="card card-primary ">
         <div class="card-body">
             <form method="post">{% csrf_token %}
-                <h4>Tem certeza que deseja excluir a Receita "{{ receita.nome }}"?</h4>
+                <h4>Tem certeza que deseja excluir a Despesa "{{ despesa.nome }}"?</h4>
                 <br/>
                 <a href="../" class="btn btn-secondary">Voltar<a/>
                 <button type="submit" class="btn btn-danger">

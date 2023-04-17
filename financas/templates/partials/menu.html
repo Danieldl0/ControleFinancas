@@ -1,0 +1,52 @@
+<div class="card card-primary m-1">
+  <div class="card-body">    
+    {% for message in messages %}
+    <div class="alert {{ message.tags }} text-center">{{ message }}</div>
+    {% endfor %}   
+    <div >
+      <div class="d-flex justify-content-between m-2">
+        <h6>Filtros</h6>
+        <a class="btn btn-primary" href="{% url cadastro %}">+ Cadastrar</a>
+      </div>
+      <form method="GET">
+      
+        <table class="table table-borderless">
+          <thead class="">
+            <tr class="text-center">
+              <th>nome</th>
+              <th>categoria</th>
+              <th colspan="3">Data</th>
+              <th>valor</th> 
+            </tr>
+            <tbody class="text-center">
+              <td>
+                <input class="form-control" type="text" name="filtro_nome" value= "{{request.GET.filtro_nome}}" >
+              </td>
+              <td>
+                <input class="form-control" type="text" name="filtro_categoria" value= "{{request.GET.filtro_categoria}}" >
+              </td>
+              <td>
+                <input class="form-control" type="date" name="filtro_data1" value= "{{request.GET.filtro_data1}}">
+                <label for="nome">inicio</label>
+              </td>
+              <td>
+                <p>a</p>
+              </td>
+              <td>
+                <input class="form-control" type="date" name="filtro_data2" value= "{{request.GET.filtro_data2}}" >
+                <label for="nome">fim</label>
+              </td>
+              <td>
+                <input class="form-control" type="text" name="filtro_valor" value= "{{request.GET.filtro_valor}}" >
+              </td>
+              
+            </tbody>
+          </thead>
+        </table>
+        <div class="d-flex justify-content-center"><button type="submit" class="btn btn-outline-secondary" name="busca" value="busca" >Pesquisar</button></div>
+      </form>
+
+    
+    </div>
+  </div>
+</div>

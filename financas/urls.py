@@ -12,4 +12,7 @@ urlpatterns = [
 
     #urls da despesa
     path('despesa/cadastro/', cadastro_despesa, name="cadastro_despesa"),
+    path('despesa/', lista_despesa, name="lista_despesa"),
+    path('despesa/<int:id>/', detalhe_despesa, name="detalhe_despesa"),
+    path('despesa/<int:id>/deletar', deleta_despesa, name="deleta_despesa"),
 ]
