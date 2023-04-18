@@ -35,7 +35,7 @@ def index(request,template_name='index.html'):
             )
         except: # testando se tem data e está no formato correto
             messages.add_message(request, constants.ERROR, "Selecione um periodo")
-            return redirect('inio')
+            return redirect('inicio')
     else:
         receitas = Receita.objects.filter(criador=request.user)
         despesas = Despesa.objects.filter(criador=request.user)
