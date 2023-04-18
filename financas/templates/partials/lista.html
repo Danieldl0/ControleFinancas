@@ -1,75 +1,75 @@
-<table class="table ">
-
+<div class = "table-responsive" >
+    <table class="table">
     
-    
-    <div class="d-flex justify-content-between">
-        <span>
-            Total de {{objeto}} <strong>{{page_obj|length }}</strong>
-        </span>
-        <div>
-            <div class="pagination justify-content-end">
-                {% if page_obj.has_previous %}
-                <div class="page-item"><a class="page-link" href="?page=1">&laquo;</a></div>
-                <div class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&lsaquo;</a></div>
-                <div class="page-item"><a class="page-link" href="?page={{page_obj.previous_page_number}}">{{page_obj.previous_page_number}}</a></div>
-                {% else %}
-                <div class="page-item"><a class="page-link disabled" >&laquo;</a></div>
-                <div class="page-item"><a class="page-link disabled" >&lsaquo;</a></div>
-                {% endif %}
-                
-                <div class="page-item"><a class="page-link" href="#">{{page_obj.number}}</a></div>
-                
-                {% if page_obj.has_next %}
-                    <div class="page-item"><a class="page-link" href="?page={{page_obj.next_page_number}}">{{page_obj.next_page_number}}</a></div>
-                    <div class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&rsaquo;</a></div>
-                    <div class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a></div>
-                {% else %}
-                    <div class="page-item"><a class="page-link disabled" >&rsaquo;</a></div>
-                    <div class="page-item"><a class="page-link disabled" >&raquo;</a></div>
-                {% endif %}
-                </div>
-            </div>
-            <span >
-                Page {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+        <div class="d-flex justify-content-between">
+            <span>
+                Total de {{objeto}} <strong>{{page_obj|length }}</strong>
             </span>
-        </div>
-        <thead class="table-dark">
-
-        <tr class="text-center">
-            <th>Nome</th>
-            <th>Descrição</th>
-            <th>Categoria</th>
-            <th>Data</th>
-            <th>Comprovante</th>
-            <th>Valor</th>
-            <th> Config. </th>
-        </tr>
-    </thead>
-    {{lista.model}}
-    {% for object in page_obj %}
-        <tbody class="text-center">
-            <td >
-                <a>{{object.nome}}</a>
-            </td>
-            <td>
-                {{object.descricao}}</a> 
-            </td>  
-            <td>
-                {{object.categoria}}
-            </td>
-            <td>
-                {{object.data| date:"d/m/Y"}}
-            </td>
-            <td>
-                <a href="{{object.comprovante.url}}"><span class="material-icons">cloud_download</span></a>
-            </td>
-            <td>
-                {{object.valor| floatformat:2}}
-            </td>
-            <td> 
-                <a href={% url detalhe object.id %}><span class="material-icons">edit</span></a>
-                <a href="{% url deleta object.id %}"><span class="material-icons text-danger">delete</span></a>
-            </td>
-        </tbody>
-    {% endfor %}
-</table>
+            <div>
+                <div class="pagination justify-content-end">
+                    {% if page_obj.has_previous %}
+                    <div class="page-item"><a class="page-link" href="?page=1">&laquo;</a></div>
+                    <div class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&lsaquo;</a></div>
+                    <div class="page-item"><a class="page-link" href="?page={{page_obj.previous_page_number}}">{{page_obj.previous_page_number}}</a></div>
+                    {% else %}
+                    <div class="page-item"><a class="page-link disabled" >&laquo;</a></div>
+                    <div class="page-item"><a class="page-link disabled" >&lsaquo;</a></div>
+                    {% endif %}
+    
+                    <div class="page-item"><a class="page-link" href="#">{{page_obj.number}}</a></div>
+    
+                    {% if page_obj.has_next %}
+                        <div class="page-item"><a class="page-link" href="?page={{page_obj.next_page_number}}">{{page_obj.next_page_number}}</a></div>
+                        <div class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&rsaquo;</a></div>
+                        <div class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a></div>
+                    {% else %}
+                        <div class="page-item"><a class="page-link disabled" >&rsaquo;</a></div>
+                        <div class="page-item"><a class="page-link disabled" >&raquo;</a></div>
+                    {% endif %}
+                    </div>
+                </div>
+                <span >
+                    Page {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                </span>
+            </div>
+            <thead class="table-dark">
+    
+            <tr class="text-center">
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Categoria</th>
+                <th>Data</th>
+                <th>Comprovante</th>
+                <th>Valor</th>
+                <th> Config. </th>
+            </tr>
+        </thead>
+        {{lista.model}}
+        {% for object in page_obj %}
+            <tbody class="text-center">
+                <td >
+                    <a>{{object.nome}}</a>
+                </td>
+                <td>
+                    {{object.descricao}}</a>
+                </td>
+                <td>
+                    {{object.categoria}}
+                </td>
+                <td>
+                    {{object.data| date:"d/m/Y"}}
+                </td>
+                <td>
+                    <a href="{{object.comprovante.url}}"><span class="material-icons">cloud_download</span></a>
+                </td>
+                <td>
+                    {{object.valor| floatformat:2}}
+                </td>
+                <td>
+                    <a href={% url detalhe object.id %}><span class="material-icons">edit</span></a>
+                    <a href="{% url deleta object.id %}"><span class="material-icons text-danger">delete</span></a>
+                </td>
+            </tbody>
+        {% endfor %}
+    </table>
+</div>
