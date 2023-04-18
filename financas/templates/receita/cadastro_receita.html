@@ -1,11 +1,14 @@
-{% extends 'index.html' %}
+{% extends 'bases/base.html' %}
 {% load static %}
 
+{% block title %}
+    Cadastro Receita
+{% endblock title %}
 
-{% block conteudo %}
+{% block body %}
 
     <h3 class="text-center"> Nova Receita </h3>
 
     {% include 'partials/form_financas.html' %}
 
-{% endblock conteudo %}
+{% endblock body %}

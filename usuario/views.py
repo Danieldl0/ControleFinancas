@@ -29,7 +29,7 @@ def login(request, template_name="login.html"):
 
         # Logar o usuario. criando uma seção para o userio autenticado.
         auth.login(request, user)
-        return render(request, 'index.html')
+        return redirect('inicio')
 
 
 def logout(request):

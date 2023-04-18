@@ -1,15 +1,84 @@
 {% extends 'bases/base.html' %}
 {% load static %}
 
+{% block title %}
+    Control Finanças
+{% endblock title %}
+
 {% block body %}
 
+
+<div class="container d-flex justify-content-center" >
     
+    <div class="card m-1">
+        <div class="card-body">
+            <h3 class="text-center">Dados</h3>
+            {% for message in messages %}
+            <div class="alert {{ message.tags }} text-center">{{ message }}</div>
+            {% endfor %}
+            <div>
+                <form action="#" method="GET">
+                    <label for="nome">inicio</label>
+                    <input class="form-control" type="date" name="filtro_data1" value= "{{request.GET.filtro_data1}}">
+                    
+                    
+                    
+                    <label for="nome">fim</label>
+                    <input class="form-control" type="date" name="filtro_data2" value= "{{request.GET.filtro_data2}}" >
+                    <br>
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-outline-primary" name="busca" value="busca" >Filtrar</button>
+                    </div>
+                </form>
+            </div>
+            
+            <br>
+            <div class="card card-primary m-1">
+                <div class="card-body bg-primary">
+                    <table class="table text-light">
+                        <thead class="text-center">
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Valor</th>
+                        </tr>
+                        </thead>
+                        <tbody class="text-center">
+                        <tr>
+                            <th scope="row">Receita</th>
+                            <td>{{receitas.all.count}}</td>
+                            <td>{{cal.total_receitas| floatformat:2}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Despesa</th>
+                            <td>{{despesas.all.count}}</td>
+                            <td>{{cal.total_despesas| floatformat:2}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+            
+                </div>
+            </div>
 
-    {% block conteudo %}
-    
-        
+            <div class="card card-primary m-1">
+                
+                {%if cal.dif > 0 %}
+                    <div class="card-body bg-success">
+                {%elif cal.dif < 0 %}
+                    <div class="card-body bg-danger">
+                {%else%}
+                    <div class="card-body bg-secondary">
+                {% endif  %}
+                        <div class="text-center text-light">
+                            <h3>Saldo Total</h3>
+                            <h3>R$ {{cal.dif| floatformat:2}}</h3>
+                        </div>
+                    </div>
+            </div>
 
-    {% endblock conteudo %}
+        </div>
+    </div>
 
+</div>
 
 {% endblock body %}

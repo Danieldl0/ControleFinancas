@@ -1,7 +1,7 @@
 {% load static %}
 <nav class="navbar bg-dark">
   {% if user.is_authenticated %}
-    <div class="d-flex justify-content-center">
+    <div class="d-flex">
     </div>
     <div class="container-fluid">
       
@@ -11,6 +11,9 @@
         <ul class="nav">
           <li class="nav-item">
             <a class="nav-link disabled text-light">Control Finanças</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-dark" href="{% url 'inicio' %}">Home</a>
           </li>
           <li class="nav-item">
             <a class="btn btn-dark" href="{% url 'lista_receita' %}">Receita</a>

@@ -1,7 +1,11 @@
-{% extends 'index.html' %}
+{% extends 'bases/base.html' %}
 {% load static %}
 
-{% block conteudo %}
+{% block title %}
+    Receitas
+{% endblock title %}
+
+{% block body %}
 
 <div class="card card-primary m-1">
     <div class="card-body">
@@ -12,4 +16,4 @@
         {% include 'partials/lista.html' with detalhe='datalhe_receita' deleta='deleta_receita' objeto='Receita'%}
     </div>
 </div>
-{% endblock conteudo %}
+{% endblock body %}

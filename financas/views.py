@@ -14,9 +14,50 @@ from django.conf import settings
 
 
 @login_required
-def index(request):
-    if request.method == "GET":
-        return render(request, 'index.html')
+def index(request,template_name='index.html'):
+
+    busca = request.GET.get('busca')
+    filtro_data1 = request.GET.get('filtro_data1')
+    filtro_data2 = request.GET.get('filtro_data2')
+
+    if busca:# checando se apertou o botão de filtrar
+        if filtro_data2 < filtro_data1: # verificando se a data final é menor que a data inicio
+            messages.add_message(request, constants.ERROR, "A data inicio deve ser menor que a data final")
+            return redirect('inicio')
+        try:
+            receitas = Receita.objects.filter(
+            criador=request.user,
+            data__range = (filtro_data1, filtro_data2)
+            )
+            despesas = Despesa.objects.filter(
+                criador=request.user,
+                data__range = (filtro_data1, filtro_data2)
+            )
+        except: # testando se tem data e está no formato correto
+            messages.add_message(request, constants.ERROR, "Selecione um periodo")
+            return redirect('inio')
+    else:
+        receitas = Receita.objects.filter(criador=request.user)
+        despesas = Despesa.objects.filter(criador=request.user)
+
+    #somando o valor de todas as Receitas/Despesas e salvando em suas respectivas variaveis
+    total_receitas = sum(receita.valor for receita in receitas)
+    total_despesas = sum(despesa.valor for despesa in despesas)
+
+    # calculando a diferença entre Receita e Despesas
+    dif = total_receitas - total_despesas
+
+    # criando um contexto que contenha os dados dos calculos
+    cal = {
+        'dif': dif,
+        'total_receitas': total_receitas,
+        'total_despesas': total_despesas
+    }
+
+    return render(request, template_name, {"receitas": receitas, "despesas": despesas, "cal": cal})
+
+
+
 
 
 #CRUD Receita
@@ -79,7 +120,7 @@ def lista_receita(request, template_name="receita/lista_receita.html"):
 
         return gerar_csv(receitas) # retornando o csv para download
 
-    if busca:# checando se apertou o botão de exportar
+    if busca:# checando se apertou o botão de filtrar
         if filtro_data1 and filtro_data2:# verificando se possui um periodo de data selecionado
             if filtro_data2 < filtro_data1: # verificando se a data final é menor que a data inicio
                 messages.add_message(request, constants.ERROR, "A data inicio deve ser menor que a data final")
