@@ -3,7 +3,7 @@
     {% for message in messages %}
     <div class="alert {{ message.tags }} text-center">{{ message }}</div>
     {% endfor %}   
-    <div >
+    <div class="table-responsive" >
       <div class="d-flex justify-content-end m-2">
         <a class="btn btn-primary" href="{% url cadastro %}">+ Cadastrar</a>
       </div>
@@ -18,34 +18,46 @@
               <th>valor</th> 
             </tr>
             <tbody class="text-center">
-              <td>
-                <input class="form-control" type="text" name="filtro_nome" value= "{{request.GET.filtro_nome}}" >
-              </td>
-              <td>
-                <input class="form-control" type="text" name="filtro_categoria" value= "{{request.GET.filtro_categoria}}" >
-              </td>
-              <td>
-                <input class="form-control" type="date" name="filtro_data1" value= "{{request.GET.filtro_data1}}">
-                <label for="nome">inicio</label>
-              </td>
-              <td>
-                <p>a</p>
-              </td>
-              <td>
-                <input class="form-control" type="date" name="filtro_data2" value= "{{request.GET.filtro_data2}}" >
-                <label for="nome">fim</label>
-              </td>
-              <td>
-                <input class="form-control" type="text" name="filtro_valor" value= "{{request.GET.filtro_valor}}" >
-              </td>
+              <tr>
+                <td>
+                  <input class="form-control" type="text" name="filtro_nome" value= "{{request.GET.filtro_nome}}" >
+                </td>
+                <td>
+                  <input class="form-control" type="text" name="filtro_categoria" value= "{{request.GET.filtro_categoria}}" >
+                </td>
+                <td>
+                  <input class="form-control" type="date" name="filtro_data1" value= "{{request.GET.filtro_data1}}">
+                  <label for="nome">inicio</label>
+                </td>
+                <td>
+                  <p>a</p>
+                </td>
+                <td>
+                  <input class="form-control" type="date" name="filtro_data2" value= "{{request.GET.filtro_data2}}" >
+                  <label for="nome">fim</label>
+                </td>
+                <td>
+                  <input class="form-control" type="text" name="filtro_valor" value= "{{request.GET.filtro_valor}}" >
+                </td>
+                <td>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="3">
+                  <button type="submit" class="btn btn-outline-primary" name="busca" value="busca" >Filtrar</button>
+
+                </td>
+                <td colspan="3">
+                  <button type="submit" class="btn btn-success" name="exportar_csv" value="exportar_csv" >Exportar</button>
+
+                </td>
+              </tr>
+              <div class="d-flex justify-content-around">
+              </div>
               
             </tbody>
           </thead>
         </table>
-        <div class="d-flex justify-content-around">
-          <button type="submit" class="btn btn-outline-secondary" name="busca" value="busca" >Filtrar</button>
-          <button type="submit" class="btn btn-success" name="exportar_csv" value="exportar_csv" >Exportar</button>
-        </div>
       </form>
 
     
