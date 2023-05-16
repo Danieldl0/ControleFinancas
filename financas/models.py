@@ -1,12 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 # Modelo base para as classes receita e despesa
 class Financas(models.Model):
     criador = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     nome = models.CharField(max_length=50, blank=False, null=False)
     valor = models.FloatField(blank=False, null=False)
-    data = models.DateField(blank=False, null=False)
+    data = models.DateField(blank=False, null=False, default=timezone.now)
     descricao = models.TextField(blank=True, null=True)
     comprovante = models.FileField(upload_to="comprovantes", blank=False, null=False)
 

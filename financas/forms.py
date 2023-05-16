@@ -7,7 +7,7 @@ class ReceitaForm(ModelForm):
         model = Receita # entidade utilizada para criação do formulario
         exclude = ('criador',)
         widgets = { 
-            'data': DateInput(attrs={'type': 'date',}), #transformando o campo data no tipo date
+            'data': DateInput(attrs={'type': 'date',}, format='%Y-%m-%d'), #transformando o campo data no tipo date
         }
 
     # funcao para colocar o atributo class = "form-control" do boostrap em todos os campos do fomulario
